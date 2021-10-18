@@ -1,3 +1,7 @@
+/*****************************************************************************
+* exemplo2.c - junta dois vetores ordenados num terceiro vetor sem repetição *
+*****************************************************************************/
+
 #include <stdio.h>
 
 #define TAMANHO_MAX 200
@@ -46,36 +50,50 @@ void main() {
 	j=0;
 	k=0;
 	while(1) {
-		if( i>=tamN ){
-			for( ; j<tamM; j++) {
+		if( i>=tamN ){ 			/* i está no final do vetor n          */
+			for( ; j<tamM; j++) {	/* insira em res o restante do vetor m */
+				if(k>0 && m[j]==res[k-1] ) {	/* o valor a ser inserido m[j] é repetido? */
+					continue;		/* vá para o próximo laço */
+					}
 				res[k]=m[j];
 				k++;
 				}
 			break;
 			}
-		if( j>=tamM ) {
-			for( ; i<tamN; i++ ) {
+		if( j>=tamM ) {			/* j está no final do vetor m          */
+			for( ; i<tamN; i++ ) {	/* insira em res o restante do vetor n */
+				if(k>0 && n[i]==res[k-1] ) {	/* o valor a ser inserido m[j] é repetido? */
+					continue;		/* vá para o próximo laço */
+					}
 				res[k]=n[i];
 				k++;
 				}
 			break;
 			}
-		if(n[i]==m[j]) {
-			res[k] = n[i];
+		
+		if(n[i]==m[j]) { 
+			if( k==0 || n[i]!=res[k-1] ) { /* se não for repetido */
+				res[k] = n[i];
+				k++;
+				}
 			i++;
 			j++;
-			k++;
 			}
 		else {
 			if( n[i] < m[j]) {
-				res[k] = n[i];
+				if( k==0 || n[i]!=res[k-1] ) { /* se não for repetido */
+					res[k] = n[i];
+					k++;
+					}
 				i++;
 				} 
 			else {
-				res[k] = m[j];
+				if( k==0 || m[j]!=res[k-1] ) { /* se não for repetido */
+					res[k] = m[j];
+					k++;
+					};
 				j++;
 				}
-			k++;
 			}	
 	} 
 
