@@ -12,7 +12,6 @@ void leVetor(int num, int *vet) {
 		num--;
 		vet++; // próximo endereço de inteiro no vetor
 		}
-	printf("%f",sqrt(80));
 }
 
 void leVetorPorIndice(int num, int *vet) {
@@ -40,6 +39,11 @@ void main() {
 	
 	printf("Entre tamanho da série: ");
 	scanf("%d",&n);
+	
+	if( n > TAM_MAX) {
+		printf("N maior que o tamanho máximo permitido %d\n\n", TAM_MAX);
+		return;
+		}
 	
 	leVetor( n, valores );
  	
