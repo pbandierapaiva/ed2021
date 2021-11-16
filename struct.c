@@ -12,10 +12,22 @@ struct cara {
 	unsigned short mes;
 	unsigned int ano;
 	} ;
+
+
+typedef struct  {
+	char nome[100];
+	unsigned short dia;
+	unsigned short mes;
+	unsigned int ano;
+	} CARA;	
+	
+	
 	
 	
 int main(){
 
+	CARA ca;
+	
 	struct cara c;
 	
 	struct cara *ptr;
