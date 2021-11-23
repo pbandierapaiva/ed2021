@@ -4,6 +4,7 @@
 #define MAXLIN 10000
 #define MAXCPO 500
 
+#define ARQUIVOCSV "/data/datasets/ed2021/cadastro2020.csv"
 
 // Arquivo gerado automaticamente 
 #define Id_SERVIDOR_PORTAL 0
