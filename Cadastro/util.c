@@ -45,10 +45,39 @@ int extrai( char *li, int campo, char *resp ) {
 	return 0;
 	}
 	
+int encontraind( char *nomebuscado, char **pRet ) {	
+	FILE *indfp;
+	REGIND reg;
+
+	prepara(nomebuscado);
+	
+	indfp = fopen( ARQUIVOIND, "r" );	
+	if( !indfp ) {
+		printf("Erro de abertura de arquivo\n\n");
+		exit(0);
+		}
+	
+	fread( &reg, sizeof(REGIND), 1, indfp );
+	
+	while( ! feof(indfp)) {
+	
+		if( strstr( reg.nome, nomebuscado ) ) {
+			printf("\nNome: %s\nLotação: %s\nOffset: %ul\n\n", reg.nome, reg.lotacao, reg.local );
+			}
+		fread( &reg, sizeof(REGIND), 1, indfp );
+		}
+
+
+
+
+
+
+	}
+
 int encontra( char *arquivo, char *nome, char **pRet ) {	
 	FILE *fp;
 	char linha[MAXLIN];
-	char temp[MAXCPO];
+	char nomeNaLinha[MAXCPO];
 	int i=0;
 	char *paux;
 	int tam;
@@ -69,8 +98,8 @@ int encontra( char *arquivo, char *nome, char **pRet ) {
 		// lê linha	
 		fgets( linha, MAXLIN, fp);
 		
-		extrai( linha, NOME, temp );
-		if( strstr( temp, nome ) ) {  //  nome in temp?
+		extrai( linha, NOME, nomeNaLinha );
+		if( strstr( nomeNaLinha, nome ) ) {  //  nome in temp?
 			if( *pRet == NULL ) {
 				*pRet = malloc(  strlen(linha) +1  );
 				}

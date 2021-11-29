@@ -1,11 +1,11 @@
 /*
-	buscacad.c
+	buscaind.c
 
 	Programa para ler cadastro em arquivo no formato CSV, baixado do transparencia.gov.br
 	na Darwin3
 	/data/datasets/ed2021/cadastro2020.csv
 	
-	Faz uma busca e retorna as linhas encontradas.
+	Faz uma busca usando índice e retorna as linhas encontradas.
 
 */
 
@@ -14,17 +14,13 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <time.h>
-
 #include "cadastro.h"
 #include "util.h"	
+
 	
 int main() {
 	char texto[MAXCPO];
 	char *resposta;
-	char *p;
-	
-
 	
 	resposta=NULL;
 	
@@ -32,15 +28,9 @@ int main() {
 	fgets(texto, MAXCPO, stdin);	
 	
 	printf("\nProcurando: %s\n\n", texto);
-
-	/*** Inicia cronometro ***/
-	clock_t cronometro = clock();
+	encontraind( texto, &resposta);
 	
-	encontra( ARQUIVOCSV,texto, &resposta);
 	printf("RESPOSTAS: \n%s",resposta);
-
-	/*** Imprime cronometro ***/
-	printf("Tempo de processamento: %u ms\n", (long)(clock()-cronometro)/1000);
 	
 	return 0;
 }

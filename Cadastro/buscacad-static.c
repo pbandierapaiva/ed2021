@@ -1,11 +1,13 @@
 /*
 	buscacad.c
 
+	* Alocação ESTÁTICA de memória *
 	Programa para ler cadastro em arquivo no formato CSV, baixado do transparencia.gov.br
 	na Darwin3
 	/data/datasets/ed2021/cadastro2020.csv
 	
 	Faz uma busca e retorna as linhas encontradas.
+	
 
 */
 
