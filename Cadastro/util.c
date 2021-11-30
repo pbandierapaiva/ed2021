@@ -46,12 +46,15 @@ int extrai( char *li, int campo, char *resp ) {
 	}
 	
 int encontraind( char *nomebuscado, char **pRet ) {	
-	FILE *indfp;
+	FILE *indfp, *fp;
 	REGIND reg;
-
+	char linha[MAXLIN];
+	
 	prepara(nomebuscado);
 	
-	indfp = fopen( ARQUIVOIND, "r" );	
+	indfp = fopen( ARQUIVOIND, "r" );
+	fp = 	fopen( ARQUIVOCSV, "r" );
+	
 	if( !indfp ) {
 		printf("Erro de abertura de arquivo\n\n");
 		exit(0);
@@ -62,16 +65,23 @@ int encontraind( char *nomebuscado, char **pRet ) {
 	while( ! feof(indfp)) {
 	
 		if( strstr( reg.nome, nomebuscado ) ) {
-			printf("\nNome: %s\nLotação: %s\nOffset: %ul\n\n", reg.nome, reg.lotacao, reg.local );
+			printf("\nNome: %s\nLotação: %s\nOffset: %u\n\n", 
+				reg.nome, reg.lotacao, reg.local );
+			fseek(fp, reg.local, 0);
+			fgets(linha, MAXLIN, fp);
+
+			if( *pRet==NULL ) {
+				*pRet = malloc(strlen(linha)+1);
+				strcpy( *pRet, linha);
+				}
+			else {
+				*pRet = realloc( *pRet, strlen(*pRet)+strlen(linha)+1 );
+				strcat(*pRet, linha);
+				}
+							
 			}
 		fread( &reg, sizeof(REGIND), 1, indfp );
 		}
-
-
-
-
-
-
 	}
 
 int encontra( char *arquivo, char *nome, char **pRet ) {	

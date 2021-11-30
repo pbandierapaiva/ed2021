@@ -2,10 +2,11 @@
 // Arquivo com protótipos e definições
 
 #define MAXLIN 10000
-#define MAXCPO 70
+#define MAXCPO 80
 
 #define ARQUIVOCSV "/data/datasets/ed2021/cadastro2020.csv"
 #define ARQUIVOIND "cadastro2020.index"
+
 
 typedef struct  {
 	char nome[MAXCPO];
