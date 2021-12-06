@@ -1,5 +1,5 @@
 /*
-	buscaind.c
+	buscalotacao.c
 
 	Programa para ler cadastro em arquivo no formato CSV, baixado do transparencia.gov.br
 	na Darwin3
@@ -22,26 +22,29 @@
 int main() {
 	char texto[MAXCPO];
 	char *resposta1, *resposta2;
+	
+	char *p,*q;
+	
 	clock_t cronometro;
 	
 	resposta1=NULL;
 	resposta2=NULL;
 	
-	printf("Entre com nome a ser encontrado: ");
+	printf("Entre com a UORG_LOTACAO  a ser encontrada: ");
 	fgets(texto, MAXCPO, stdin);	
 	
 	/*** Inicia cronometro ***/
 	cronometro = clock();
 	printf("\nProcurando no arquivo indexado: %s\n\n", texto);
 	printf("Encontrados: %d\n", 
-		encontraind( texto, NOME, &resposta1));
+		encontraind( texto, UORG_LOTACAO, &resposta1));
 	/*** Imprime cronometro ***/
 	printf("Tempo de processamento: %u ms\n", (long)(clock()-cronometro)/1000);
 
 	cronometro = clock();
 	printf("\nProcurando direto no CSV: %s\n\n", texto);
-	printf("Encontrados: %d\n", 
-		encontra( texto, NOME, &resposta2));
+	printf("Encontrados: %d\n",
+	 	encontra( texto, UORG_LOTACAO, &resposta2));
 	printf("Tempo de processamento: %u ms\n", (long)(clock()-cronometro)/1000);
 
 	if( !strcmp(resposta1,resposta2) ) 
@@ -49,6 +52,23 @@ int main() {
 	else
 		printf("\n\n%s\n\n%s", resposta1, resposta2 );
 	
+	p = resposta1;
+	q=p;
+	
+	while( 1 ) {
+	
+		while( *q!='\n' && *q!='\0' ) q++; 
+		
+		if( *q=='\0' ) {
+			imprimeLinha( p );
+			break;
+			}
+		//  *q=='\n'
+		*q = '\0';
+		imprimeLinha( p );
+		q++;
+		p=q;
+		}
 	return 0;
 }
 

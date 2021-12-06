@@ -44,18 +44,40 @@ int extrai( char *li, int campo, char *resp ) {
 		}
 	return 0;
 	}
+
+void imprimeLinha(char *linha) {
+	char cpo[MAXCPO];
 	
-int encontraind( char *nomebuscado, char **pRet ) {	
+	extrai(linha, NOME, cpo);
+	printf("Nome:\t %s\n",cpo);
+	extrai(linha, DESCRICAO_CARGO, cpo);
+	printf("Cargo:\t %s\n",cpo);
+	extrai(linha, UORG_LOTACAO, cpo);
+	printf("Lotacao:\t %s\n",cpo);
+	extrai(linha, ORG_LOTACAO, cpo);
+	printf("Org Lot:\t %s\n",cpo);
+	extrai(linha, ORGSUP_LOTACAO, cpo);
+	printf("Sup Lot:\t %s\n\n",cpo);
+	
+	return;
+	}
+int encontraind( char *nomebuscado, int campo, char **pRet ) {	
 	FILE *indfp, *fp;
 	REGIND reg;
 	char linha[MAXLIN];
+	char regbusca[MAXCPO];
+	int i=0;
 	
+	if( campo!=NOME && campo!=UORG_LOTACAO )	{
+		printf("\nChamada de função encontraind ERRADA\n\n!");
+		return 0;	
+		}
 	prepara(nomebuscado);
 	
 	indfp = fopen( ARQUIVOIND, "r" );
 	fp = 	fopen( ARQUIVOCSV, "r" );
 	
-	if( !indfp ) {
+	if( !indfp || !fp ) {
 		printf("Erro de abertura de arquivo\n\n");
 		exit(0);
 		}
@@ -63,10 +85,13 @@ int encontraind( char *nomebuscado, char **pRet ) {
 	fread( &reg, sizeof(REGIND), 1, indfp );
 	
 	while( ! feof(indfp)) {
-	
-		if( strstr( reg.nome, nomebuscado ) ) {
-			printf("\nNome: %s\nLotação: %s\nOffset: %u\n\n", 
-				reg.nome, reg.lotacao, reg.local );
+		if( campo==NOME )
+			strcpy(regbusca, reg.nome);
+		else 
+			strcpy(regbusca, reg.lotacao);
+		 
+		if(  strstr( regbusca, nomebuscado ) ) {
+			i++;
 			fseek(fp, reg.local, 0);
 			fgets(linha, MAXLIN, fp);
 
@@ -82,9 +107,10 @@ int encontraind( char *nomebuscado, char **pRet ) {
 			}
 		fread( &reg, sizeof(REGIND), 1, indfp );
 		}
+	return i;
 	}
 
-int encontra( char *arquivo, char *nome, char **pRet ) {	
+int encontra( char *nome, int campo, char **pRet ) {	
 	FILE *fp;
 	char linha[MAXLIN];
 	char nomeNaLinha[MAXCPO];
@@ -92,11 +118,15 @@ int encontra( char *arquivo, char *nome, char **pRet ) {
 	char *paux;
 	int tam;
 	
+	if( campo!=NOME && campo!=UORG_LOTACAO )	{
+		printf("\nChamada de função encontra() ERRADA\n\n!");
+		return 0;	
+		}
 	
 	prepara(nome);
 	
 	// abre  arquivo para leitura
-	fp = fopen( arquivo, "r" );
+	fp = fopen( ARQUIVOCSV, "r" );
 		
 	if( !fp ) {
 		printf("Erro de abertura de arquivo\n\n");
@@ -108,31 +138,22 @@ int encontra( char *arquivo, char *nome, char **pRet ) {
 		// lê linha	
 		fgets( linha, MAXLIN, fp);
 		
-		extrai( linha, NOME, nomeNaLinha );
+		extrai( linha, campo, nomeNaLinha );
 		if( strstr( nomeNaLinha, nome ) ) {  //  nome in temp?
 			if( *pRet == NULL ) {
 				*pRet = malloc(  strlen(linha) +1  );
 				}
 			else {
 				tam = strlen(*pRet) + strlen(linha)+1;
-				printf("\n Tam: %d\n",tam);
 
-				printf("antes do malloc\n");				
-				
 				*pRet = realloc( *pRet, tam );
-				printf("depois do malloc\n");				
+
 				if( *pRet==NULL ){
-					printf("\nERRO - problema na alocação de memória.\n"); 
+					printf("\nERRO-problema na alocação de memória\n"); 
 					return -1;
 					}				
 				}
-		
-		
 			strcat(*pRet, linha);
-			strcat(*pRet, "\n");
-
-			printf(*pRet);
-
 			i++;	
 			}
 		}
@@ -141,7 +162,6 @@ int encontra( char *arquivo, char *nome, char **pRet ) {
 	return i;
 	}	
 	
-
 void prepara(char *texto) {
 	char *p;
 	p= texto;
