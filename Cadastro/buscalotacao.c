@@ -52,23 +52,9 @@ int main() {
 	else
 		printf("\n\n%s\n\n%s", resposta1, resposta2 );
 	
-	p = resposta1;
-	q=p;
+
+	imprimeResposta(resposta1);
 	
-	while( 1 ) {
-	
-		while( *q!='\n' && *q!='\0' ) q++; 
-		
-		if( *q=='\0' ) {
-			imprimeLinha( p );
-			break;
-			}
-		//  *q=='\n'
-		*q = '\0';
-		imprimeLinha( p );
-		q++;
-		p=q;
-		}
 	return 0;
 }
 

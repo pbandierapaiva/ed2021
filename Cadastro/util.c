@@ -45,6 +45,26 @@ int extrai( char *li, int campo, char *resp ) {
 	return 0;
 	}
 
+void imprimeResposta(char *resp) {
+	char *p, *q;
+
+	p = resp;
+	q=p;
+	
+	while( 1 ) {
+		while( *q!='\n' && *q!='\0' ) q++; 
+		if( *q=='\0' ) {
+			break;
+			}
+		//  *q=='\n'
+		*q = '\0';
+		imprimeLinha( p );
+		q++;
+		p=q;
+		}
+}
+
+
 void imprimeLinha(char *linha) {
 	char cpo[MAXCPO];
 	

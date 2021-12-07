@@ -1,5 +1,5 @@
 /*
-	buscaind.c
+	buscanome.c
 
 	Programa para ler cadastro em arquivo no formato CSV, baixado do transparencia.gov.br
 	na Darwin3
@@ -21,11 +21,10 @@
 	
 int main() {
 	char texto[MAXCPO];
-	char *resposta1, *resposta2;
+	char *resposta;
 	clock_t cronometro;
 	
-	resposta1=NULL;
-	resposta2=NULL;
+	resposta=NULL;
 	
 	printf("Entre com nome a ser encontrado: ");
 	fgets(texto, MAXCPO, stdin);	
@@ -34,20 +33,11 @@ int main() {
 	cronometro = clock();
 	printf("\nProcurando no arquivo indexado: %s\n\n", texto);
 	printf("Encontrados: %d\n", 
-		encontraind( texto, NOME, &resposta1));
+		encontraind( texto, NOME, &resposta));
 	/*** Imprime cronometro ***/
 	printf("Tempo de processamento: %u ms\n", (long)(clock()-cronometro)/1000);
 
-	cronometro = clock();
-	printf("\nProcurando direto no CSV: %s\n\n", texto);
-	printf("Encontrados: %d\n", 
-		encontra( texto, NOME, &resposta2));
-	printf("Tempo de processamento: %u ms\n", (long)(clock()-cronometro)/1000);
-
-	if( !strcmp(resposta1,resposta2) ) 
-		printf("Responderam a mesma coisa\n");
-	else
-		printf("\n\n%s\n\n%s", resposta1, resposta2 );
+	imprimeResposta(resposta);
 		
 	
 	
