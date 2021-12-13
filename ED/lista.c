@@ -1,10 +1,31 @@
-// Pilha
+// Implementação de estruturas de dados baseadas em listas simplesmente encadeadas
+//
+// Pilha, Fila, Lista circular
 
 #include "lista.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
+// Imprime lista
+void imprimeLista( NO *pilha ) {
+	NO *paux;
+	
+	paux = pilha;
+	printf("\n\nImprimindo pilha:\n-- Topo --\n");
+	while( paux ) {
+		printf("Val: %d\n", paux->dado );
+		paux = paux->prox;
+	}				
+	printf("-----\n\n");
+}
+
+
+// Implementação de Pilha
+//
+// NO *pilha;
+// funções push(int dado, &pilha ), pop( &pilha ), peek( pilha )
+//
 void push( int d, NO **pilha ) {
 	NO *novo;
 	
@@ -43,47 +64,4 @@ int peek( NO *pilha) {
 	return pilha->dado;
 }
 
-void main() {
-	int t;
-	int  dado;
-	
-	NO *stack;
-	NO *paux;
-	
-	stack = NULL;
-	
-	while(1) {
-		printf("\n\n****\n1.Push\n2.Pop\n3.Peek\n4.Imprime\n0.Sai\n****\nSelecione: ");
-		//t = fgetc(stdin);
-		scanf("%d", &t);
-		
-		printf("Opção: %d\n",t);
-		switch( t ){
-		case 1:
-			printf("\nEntre com número: ");
-			scanf("%d", &dado);
-			push(dado, &stack);
-			printf("inserido\n");
-			break;
-		case 2:
-			printf("\n\nValor: %d\n\n", pop(&stack));
-			break;
-		case 3:
-			printf("\n\nValor: %d\n\n", peek(stack));
-			break;
-		case 4:
-			paux = stack;
-			while( paux ) {
-				printf("Val: %d\n", paux->dado );
-				paux = paux->prox;
-			}		
-			break;		
-		case 0:
-			exit(0);
-		}
-	}
-
-		
-
-}
 
