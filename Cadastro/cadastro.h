@@ -13,7 +13,19 @@ typedef struct  {
 	char lotacao[MAXCPO];
 	int  local;
 	} REGIND; 
+
+typedef struct  {
+	char nome[MAXCPO];  // NOME
+	char lotacao[MAXCPO]; // ORGSUP_LOTACAO
+	char cargo[MAXCPO];	// DESCRICAO_CARGO
+	char olotacao[MAXCPO];  	//COD_ORG_LOTACAO
+	char ulotacao[MAXCPO];		//COD_UORG_LOTACAO
+	} REGISTRO;
 	
+typedef struct No {
+	REGISTRO registro;
+	struct No *prox;
+	} NO; 
 
 
 

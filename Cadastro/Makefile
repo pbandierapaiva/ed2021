@@ -5,7 +5,8 @@
 C = gcc
 # Para depuração "-g"
 COPT = -g
-
+# para produção
+# COPT =
 
 
 all: criaind maxcampos buscaind buscalotacao buscanome

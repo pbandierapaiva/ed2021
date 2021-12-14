@@ -7,3 +7,6 @@ int extrai( char *, int , char * );
 void imprimeLinha(char *);
 void imprimeResposta(char *);
 
+int achanomes( char *, int ,  NO ** );
+void push( REGISTRO , NO ** );
+void imprimePilha(NO *);

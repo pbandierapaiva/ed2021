@@ -181,6 +181,82 @@ int encontra( char *nome, int campo, char **pRet ) {
 	fclose(fp);	
 	return i;
 	}	
+
+int achanomes( char *nomebuscado, int campo, NO **pRet ) {	
+	FILE *indfp, *fp;
+	REGIND reg;
+	REGISTRO r;
+	char linha[MAXLIN];
+	char regbusca[MAXCPO];
+	int i=0;
+	
+	if( campo!=NOME && campo!=UORG_LOTACAO )	{
+		printf("\nChamada de função encontraind ERRADA\n\n!");
+		return 0;	
+		}
+	prepara(nomebuscado);
+	
+	indfp = fopen( ARQUIVOIND, "r" );
+	fp = 	fopen( ARQUIVOCSV, "r" );
+	
+	if( !indfp || !fp ) {
+		printf("Erro de abertura de arquivo\n\n");
+		exit(0);
+		}
+	
+	fread( &reg, sizeof(REGIND), 1, indfp );
+	
+	while( ! feof(indfp)) {
+		if( campo==NOME )
+			strcpy(regbusca, reg.nome);
+		else 
+			strcpy(regbusca, reg.lotacao);
+		 
+		if(  strstr( regbusca, nomebuscado ) ) {
+			i++;
+			fseek(fp, reg.local, 0);
+			fgets(linha, MAXLIN, fp);
+
+
+			extrai( linha, NOME, r.nome);
+			extrai( linha, ORGSUP_LOTACAO, r.lotacao);
+			extrai( linha, DESCRICAO_CARGO, r.cargo);
+			extrai( linha, COD_UORG_LOTACAO, r.ulotacao);
+			extrai( linha, COD_ORG_LOTACAO , r.olotacao);
+			push( r, pRet);
+			}
+		fread( &reg, sizeof(REGIND), 1, indfp );
+		}
+	return i;
+	}
+	
+	
+void push( REGISTRO reg, NO **pilha ) {
+	NO *novo;
+	
+	novo = malloc( sizeof(NO) );
+	if(!novo) {
+		printf("\nERRO DE ALOCAÇÃO DE MEMÓRIA\n");
+		exit(-1);
+		}
+	novo->registro = reg;
+	novo->prox = *pilha;
+	*pilha = novo;
+}
+void imprimePilha(NO *pilha) {
+	NO *paux;
+	
+	paux = pilha;
+	while( paux ){
+		printf("Nome: %s\n", paux->registro.nome);
+		printf("Cargo: %s\n", paux->registro.cargo);
+		printf("Lot: %s\n", paux->registro.lotacao);
+		printf("Lot: %s\n", paux->registro.ulotacao);
+		printf("Lot: %s\n\n", paux->registro.olotacao);	
+		paux = paux->prox;
+		}
+
+}	
 	
 void prepara(char *texto) {
 	char *p;

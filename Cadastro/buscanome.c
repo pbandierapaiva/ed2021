@@ -21,7 +21,7 @@
 	
 int main() {
 	char texto[MAXCPO];
-	char *resposta;
+	NO *resposta;
 	clock_t cronometro;
 	
 	resposta=NULL;
@@ -33,12 +33,15 @@ int main() {
 	cronometro = clock();
 	printf("\nProcurando no arquivo indexado: %s\n\n", texto);
 	printf("Encontrados: %d\n", 
-		encontraind( texto, NOME, &resposta));
+//		encontraind( texto, NOME, &resposta));
+		achanomes( texto, NOME, &resposta));
+
 	/*** Imprime cronometro ***/
 	printf("Tempo de processamento: %u ms\n", (long)(clock()-cronometro)/1000);
 
-	imprimeResposta(resposta);
-		
+	//imprimeResposta(resposta);
+	
+	imprimePilha(resposta);	
 	
 	
 	return 0;
