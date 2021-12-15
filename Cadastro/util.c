@@ -182,6 +182,8 @@ int encontra( char *nome, int campo, char **pRet ) {
 	return i;
 	}	
 
+
+// achanomes usa uma pilha (NO) para retornar valores
 int achanomes( char *nomebuscado, int campo, NO **pRet ) {	
 	FILE *indfp, *fp;
 	REGIND reg;
