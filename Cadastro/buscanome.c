@@ -33,7 +33,6 @@ int main() {
 	cronometro = clock();
 	printf("\nProcurando no arquivo indexado: %s\n\n", texto);
 	printf("Encontrados: %d\n", 
-//		encontraind( texto, NOME, &resposta));
 		achanomes( texto, NOME, &resposta));
 
 	/*** Imprime cronometro ***/
