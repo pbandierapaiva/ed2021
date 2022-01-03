@@ -12,10 +12,12 @@ void imprimeLista( NO *pilha ) {
 	NO *paux;
 	
 	paux = pilha;
-	printf("\n\nImprimindo pilha:\n-- Topo --\n");
+	printf("\n\nImprimindo lista:\n-- Topo --\n");
 	while( paux ) {
 		printf("Val: %d\n", paux->dado );
 		paux = paux->prox;
+		if( paux==pilha )
+			break;
 	}				
 	printf("-----\n\n");
 }
@@ -44,7 +46,7 @@ int pop( NO **pilha ) {
 	int vdado;
 	
 	if(*pilha == NULL ) {
-		printf("\nPilha vazia!\n");
+		printf("\nVazio!\n");
 		return 0;
 		}
 	
@@ -63,5 +65,105 @@ int peek( NO *pilha) {
 		}
 	return pilha->dado;
 }
+
+// Implementação de Fila
+//
+// NO *fila;
+// funções entra(int dado, &fila ), sai( &fila )
+//
+
+void entra( int pdado, NO **fila ){
+	NO *paux;
+
+	NO *novo;
+	novo = malloc( sizeof(NO) );
+	if(!novo) {
+		printf("\nERRO DE ALOCAÇÃO DE MEMÓRIA\n");
+		exit(-1);
+		}
+	novo->dado = pdado;
+	novo->prox = NULL;	
+	
+	
+	paux = *fila;
+	if( paux==NULL ) {	// fila vazia
+		*fila = novo;
+		return;
+		}
+	while( 1 ) {
+		if( paux->prox==NULL ) {
+			paux->prox = novo;
+			break;
+			}
+		else {
+			paux=paux->prox;
+			}
+		}
+}
+
+int sai( NO **fila ) {
+	return pop(fila);
+}
+
+// Implementação de Lista circular
+//
+// NO *lc;
+// funções insere(int dado, &lc ), remove( &lc ), prox( &lc )
+//
+void insere(int pdado, NO **lc ) {
+	NO *paux;
+	
+	NO *novo;
+	novo = malloc( sizeof(NO) );
+	if(!novo) {
+		printf("\nERRO DE ALOCAÇÃO DE MEMÓRIA\n");
+		exit(-1);
+		}
+	novo->dado = pdado;
+	novo->prox = novo;	
+
+	paux = *lc;
+	if(paux==NULL) {
+		*lc = novo;
+		return;
+		}
+		
+	while( paux->prox != *lc ) {
+		paux = paux->prox;
+		}
+	paux->prox = novo;
+	novo->prox = *lc;
+}
+
+int retira( NO **lc ) {
+	NO *paux;
+	int vdado;
+	
+	paux = *lc;
+	if(paux==NULL) {
+		printf("\nLista vazia.\n");
+		return 0;
+		}
+	
+	while( paux->prox != *lc )
+		paux=paux->prox;
+	paux->prox = (*lc)->prox;
+	vdado = (*lc)->dado;
+	free(*lc);
+	*lc = paux->prox;
+	return vdado;
+}
+
+int prox( NO **lc ) {
+	int vdado;
+	vdado = (*lc)->dado;
+	*lc = (*lc)->prox;
+	return vdado;
+}
+
+
+
+
+
 
 
