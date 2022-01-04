@@ -6,9 +6,9 @@ C = gcc
 # Para depuração "-g"
 COPT = -g
 # Para produção
-# COPT = 
+# COPT =
 
-all: pilha fila lc
+all: pilha fila lc dl
 
 clean:
 	rm *.o
@@ -22,10 +22,16 @@ fila: fila.o  lista.o
 lc: lc.o  lista.o
 	$(C) lc.o lista.o -o lc
 
-lista.o: lista.c lista.h 
+dl: dl.o listadl.o
+	$(C) dl.o listadl.o -o dl
+
+lista.o: lista.c lista.h
 	$(C) $(COPT) -c lista.c
-	
-pilha.o: pilha.c lista.h 
+
+listadl.o: listadl.c listadl.h
+		$(C) $(COPT) -c listadl.c
+
+pilha.o: pilha.c lista.h
 	$(C) $(COPT) -c pilha.c
 
 fila.o: fila.c lista.h
@@ -34,6 +40,5 @@ fila.o: fila.c lista.h
 lc.o: lc.c lista.h
 	$(C) $(COPT) -c lc.c
 
-
-
-
+dl.o: dl.c listadl.h
+	$(C) $(COPT) -c dl.c

@@ -3,29 +3,37 @@
 //
 // Estrutura para Lista duplamente ligada: NOD
 
-typedef struct NoD {
+typedef struct NoDL {
 	int dado;
-	struct NoD *ant;	
-	struct NoD *prox;
-	} NO; 
-	
-	
+	struct NoDL *ant;
+	struct NoDL *prox;
+} NOD;
+
+// Fila com prioridade
+typedef struct  {
+	NOD *prior;
+	NOD *comum;
+} FCP;
+
 // Protótipos das funções
 
-void imprimeLista( NO * );
+void imprimeLista( NOD * );
 
 // Pilha
-void push( int , NO ** );
-int pop( NO ** );
-int peek( NO *);
+void push( int , NOD ** );
+int pop( NOD ** );
+int peek( NOD *);
 
 // Fila
-void entra( int , NO ** );
-int sai( NO ** );
+void entra( int , NOD ** );
+int sai( NOD ** );
 
 // Lista circular
-void insere(int , NO ** );
-int retira( NO ** );
-int prox( NO ** );
+void insere(int , NOD ** );
+int retira( NOD ** );
+int prox( NOD ** );
 
-
+// Lista com prioridade
+void imprimeListasPrioridade( FCP *);
+void entraFCP( int , FCP *, int );
+int saiFCP(FCP *);
