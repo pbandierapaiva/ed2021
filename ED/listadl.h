@@ -33,7 +33,7 @@ void insere(int , NOD ** );
 int retira( NOD ** );
 int prox( NOD ** );
 
-// Lista com prioridade
+// Fila com prioridade
 void imprimeListasPrioridade( FCP *);
 void entraFCP( int , FCP *, int );
 int saiFCP(FCP *);
