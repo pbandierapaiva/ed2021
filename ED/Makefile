@@ -8,7 +8,7 @@ COPT = -g
 # Para produção
 # COPT =
 
-all: pilha fila lc dl
+all: pilha fila lc dl arvore
 
 clean:
 	rm *.o
@@ -24,6 +24,11 @@ lc: lc.o  lista.o
 
 dl: dl.o listadl.o
 	$(C) dl.o listadl.o -o dl
+
+
+arvore: arvore.o
+	$(C) arvore.o -o arvore
+
 
 lista.o: lista.c lista.h
 	$(C) $(COPT) -c lista.c
@@ -42,3 +47,6 @@ lc.o: lc.c lista.h
 
 dl.o: dl.c listadl.h
 	$(C) $(COPT) -c dl.c
+
+arvore.o: arvore.c arvore.h
+		$(C) $(COPT) -c arvore.c

@@ -2,11 +2,16 @@
 
 struct cel {
   int conteudo;
-  struct cel *pai;
   struct cel *esq;
+  struct cel *pai;
   struct cel *dir;
-};
-
+} ;
+//
 typedef struct cel NO;
 
-typdef struct NO *arvore;
+typedef NO *arvore;
+
+void insere(arvore *, int  );
+arvore busca(arvore , int);
+void travessia(arvore );
+int altura(arvore );
