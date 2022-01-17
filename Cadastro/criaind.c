@@ -39,7 +39,7 @@ int main() {
 		
 		// Montando a struct reglido com dados da linha
 		extrai( linha, NOME, reglido.nome);  
-		extrai( linha, UORG_LOTACAO, reglido.lotacao);
+		//extrai( linha, UORG_LOTACAO, reglido.lotacao);
 		reglido.local = onde;
 		
 		fwrite( &reglido, sizeof(REGIND), 1, indfp);

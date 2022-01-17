@@ -10,9 +10,23 @@
 
 typedef struct  {
 	char nome[MAXCPO];
-	char lotacao[MAXCPO];
-	int  local;
+	//char lotacao[MAXCPO];
+	long int  local; // offset no arquivo original CSV
 	} REGIND; 
+
+// Estrutura para árvore binária de busca (BST)	
+struct cel {
+  REGIND dados;
+  struct cel *esq;
+  struct cel *dir;
+} ;
+//
+typedef struct cel NOBST;
+
+typedef NOBST *arvore;
+	
+	
+	
 
 typedef struct  {
 	char nome[MAXCPO];  // NOME

@@ -107,9 +107,11 @@ int encontraind( char *nomebuscado, int campo, char **pRet ) {
 	while( ! feof(indfp)) {
 		if( campo==NOME )
 			strcpy(regbusca, reg.nome);
-		else 
-			strcpy(regbusca, reg.lotacao);
-		 
+		else {
+			//strcpy(regbusca, reg.lotacao);
+			printf("Não implementado");
+			exit(1);
+		 	}
 		if(  strstr( regbusca, nomebuscado ) ) {
 			i++;
 			fseek(fp, reg.local, 0);
@@ -211,9 +213,11 @@ int achanomes( char *nomebuscado, int campo, NO **pRet ) {
 	while( ! feof(indfp)) {
 		if( campo==NOME )
 			strcpy(regbusca, reg.nome);
-		else 
-			strcpy(regbusca, reg.lotacao);
-		 
+		else {
+			//strcpy(regbusca, reg.lotacao);
+			printf("Não implementado");
+			exit(1);
+		 	}
 		if(  strstr( regbusca, nomebuscado ) ) {
 			i++;
 			fseek(fp, reg.local, 0);
