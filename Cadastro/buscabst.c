@@ -15,6 +15,18 @@ void insere(arvore *a, REGIND valor ) {
       insere( &( (*a)->esq ), valor );
     else
       insere( &( (*a)->dir ), valor );
+
+    // verifica fator de balanceamento fb
+    int fb;
+
+    fb = altura( (*a)->dir) -   altura( (*a)->esq);
+    if( fb<-1 ){ //desbalanceada para a esquerda
+      rotacaoDireita(a);
+      }
+    else if (fb>1){
+      rotacaoEsquerda(a);
+      }
+
     return;
   }
 
@@ -34,6 +46,22 @@ void insere(arvore *a, REGIND valor ) {
   novono->dir=NULL;
 
   (*a) = novono;
+
+}
+
+arvore rotacaoDireita(arvore *p){
+  arvore paux;
+  paux = (*p)->esq;
+  (*p)->esq = paux->dir;
+  paux->dir = (*p);
+  (*p) = paux;
+}
+arvore rotacaoEsquerda(arvore *p){
+  arvore paux;
+  paux = (*p)->dir;
+  (*p)->dir = paux->esq;
+  paux->esq = (*p);
+  (*p) = paux;
 }
 
 arvore busca(arvore a, char *pnome) {
@@ -68,15 +96,15 @@ int altura(arvore a) {
 
 int main() {
   arvore raiz=NULL;
-  REGIND valor;
+  // REGIND valor;
   FILE *fp;
-  
+
   REGIND reglido;
   char linha[MAXLIN];
   long int onde;
   int regs=0;
-  
-  
+
+
   fp = fopen(ARQUIVOCSV,"r");
   if(fp==NULL) {
   	printf("Erro de aberturra de arquivo");
@@ -84,23 +112,24 @@ int main() {
   	}
 
   fgets( linha, MAXLIN, fp); // cabeçalho do arquivo
-	
+
   while( 1 ) {
-	if(feof(fp)) break;
-  	regs++;  	
-  	if(regs%1000==0) {
-  		printf("\b\b\b\b\b\b\b\b%d", regs);
-  		fflush(stdout);
-  		}
-	onde = ftell( fp );
-	fgets( linha, MAXLIN, fp);
-	
+	  if(feof(fp)) break;
+    regs++;
+
+    if(regs%1000==0) {
+    	printf("\b\b\b\b\b\b\b\b%d", regs);
+    	fflush(stdout);
+    	}
+    onde = ftell( fp );
+    fgets( linha, MAXLIN, fp);
+
 	// Montando a struct reglido com dados da linha
-	extrai( linha, NOME, reglido.nome);  
+	extrai( linha, NOME, reglido.nome);
 	reglido.local = onde;
-	
+
 	insere(&raiz, reglido);
-		
+
 	}
   fclose(fp);
 

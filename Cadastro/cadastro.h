@@ -12,9 +12,9 @@ typedef struct  {
 	char nome[MAXCPO];
 	//char lotacao[MAXCPO];
 	long int  local; // offset no arquivo original CSV
-	} REGIND; 
+	} REGIND;
 
-// Estrutura para árvore binária de busca (BST)	
+// Estrutura para árvore binária de busca (BST)
 struct cel {
   REGIND dados;
   struct cel *esq;
@@ -24,9 +24,15 @@ struct cel {
 typedef struct cel NOBST;
 
 typedef NOBST *arvore;
-	
-	
-	
+
+void insere(arvore *, REGIND  );
+arvore rotacaoDireita(arvore *);
+arvore rotacaoEsquerda(arvore *);
+arvore busca(arvore, char *);
+void travessia(arvore);
+int altura(arvore);
+
+
 
 typedef struct  {
 	char nome[MAXCPO];  // NOME
@@ -35,15 +41,15 @@ typedef struct  {
 	char olotacao[MAXCPO];  	//COD_ORG_LOTACAO
 	char ulotacao[MAXCPO];		//COD_UORG_LOTACAO
 	} REGISTRO;
-	
+
 typedef struct No {
 	REGISTRO registro;
 	struct No *prox;
-	} NO; 
+	} NO;
 
 
 
-// Arquivo gerado automaticamente 
+// Arquivo gerado automaticamente
 #define Id_SERVIDOR_PORTAL 0
 #define NOME 1
 #define CPF 2

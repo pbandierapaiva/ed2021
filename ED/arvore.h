@@ -15,3 +15,6 @@ void insere(arvore *, int  );
 arvore busca(arvore , int);
 void travessia(arvore );
 int altura(arvore );
+
+arvore rotacaoDireita(arvore *);
+arvore rotacaoEsquerda(arvore *);

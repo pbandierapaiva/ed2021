@@ -5,14 +5,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// int fb(arvore a){
+//   return altura( a->dir ) - altura( a->esq);
+// }
 void insere(arvore *a, int valor ) {
   arvore novono;
+  int fb;
 
   if( *a !=NULL ) { // árvore existe
     if( valor > (*a)->conteudo )   //Direita
       insere( &( (*a)->dir ), valor );
     else
       insere( &( (*a)->esq ), valor );
+
+    fb = altura( (*a)->dir) -   altura( (*a)->esq);
+    if( fb < -1 ) { //desbalanceada para a esquerda
+
+      if( altura( (*a)->esq->dir ) - altura( (*a)->esq->esq) > 0 )
+        rotacaoEsquerda((arvore *)(*a)->esq);
+      rotacaoDireita(a);
+    }
+    else if (fb > 1 ) {
+      if(  altura( (*a)->dir->dir ) - altura( (*a)->dir->esq)    < 0 )
+        rotacaoDireita((arvore *)(*a)->dir );
+      rotacaoEsquerda(a);
+    }
     return;
   }
 
@@ -22,7 +39,6 @@ void insere(arvore *a, int valor ) {
     exit(1);
   }
   novono->conteudo = valor;
-  novono->pai=NULL;
   novono->esq=NULL;
   novono->dir=NULL;
 
@@ -59,22 +75,55 @@ int altura(arvore a) {
   return hd+1;
 }
 
+arvore rotacaoDireita(arvore *p){
+  arvore paux;
+  paux = (*p)->esq;
+  (*p)->esq = paux->dir;
+  paux->dir = (*p);
+  (*p) = paux;
+}
+arvore rotacaoEsquerda(arvore *p){
+  arvore paux;
+  paux = (*p)->dir;
+  (*p)->dir = paux->esq;
+  paux->esq = (*p);
+  (*p) = paux;
+}
+
 int main() {
   arvore raiz=NULL;
   int valor;
 
-  printf("Entre com valor inteiro positivo (0 termina)\n\n");
 
-  while(1) {
-    printf("> ");
-    scanf("%d", &valor);
-    if( valor==0 )
-      break;
-    insere(&raiz, valor);
-    }
+// Entrando números sequenciais
+for(valor=0; valor<10000; valor++)
+  insere(&raiz, valor);
 
-  printf("\nTravessia da rede em ordem (ERD)\n");
-  travessia(raiz);
-  printf("\n\n")
+// Entrando dados através de um arquivo com 10.000 números aletaórios
+  // FILE *fpd;
+  // fpd = fopen("entrada.txt","r");
+  //
+  // while(1) {
+  //   if( feof(fpd) ) break;
+  //   fscanf(fpd, "%d\n", &valor);
+  //   insere(&raiz, valor);
+  // }
+
+//Entrando dados usando arquivo "entrada.txt"
+  // printf("Entre com valor inteiro positivo (0 termina)\n\n");
+  // while(1) {
+  //   printf("> ");
+  //   scanf("%d", &valor);
+  //   if( valor==0 )
+  //     break;
+  //   insere(&raiz, valor);
+  //   }
+
+  printf("Altura da árvore %d\n", altura(raiz));
+
+  // printf("\nTravessia da rede em ordem (ERD)\n");
+  // travessia(raiz);
+  // printf("\n\n");
+
 
 }
