@@ -6,9 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
 
 void insere(arvore *a, REGIND valor ) {
   arvore novono;
+	int fb;
 
   if( *a !=NULL ) { // árvore existe
     if( strcmp( valor.nome, (*a)->dados.nome ) < 0 )   // 0 se for igual, -1 se esq maior
@@ -17,13 +20,15 @@ void insere(arvore *a, REGIND valor ) {
       insere( &( (*a)->dir ), valor );
 
     // verifica fator de balanceamento fb
-    int fb;
-
     fb = altura( (*a)->dir) -   altura( (*a)->esq);
     if( fb<-1 ){ //desbalanceada para a esquerda
+			if( altura( (*a)->esq->dir ) - altura( (*a)->esq->esq) > 0 )
+				rotacaoEsquerda((arvore *)(*a)->esq);
       rotacaoDireita(a);
       }
     else if (fb>1){
+			if(  altura( (*a)->dir->dir ) - altura( (*a)->dir->esq)    < 0 )
+				rotacaoDireita((arvore *)(*a)->dir );
       rotacaoEsquerda(a);
       }
 
@@ -76,9 +81,10 @@ arvore busca(arvore a, char *pnome) {
 }
 
 void travessia(arvore a){
+	if( a==NULL) return;
   if( a->esq != NULL )
     travessia( a->esq );  //E
-  printf(" %s %s %d\n", a->dados.nome, a->dados.local); //R
+  printf(" %s %d\n", a->dados.nome, a->dados.local); //R
   if( a->dir != NULL )
     travessia( a->dir ) ;//D
 }
@@ -94,51 +100,78 @@ int altura(arvore a) {
   return hd+1;
 }
 
-int main() {
+arvore carregaindice() {
   arvore raiz=NULL;
   // REGIND valor;
-  FILE *fp;
+  FILE *fp, *indfp;
 
-  REGIND reglido;
+  REGIND regind;
   char linha[MAXLIN];
   long int onde;
   int regs=0;
 
 
   fp = fopen(ARQUIVOCSV,"r");
-  if(fp==NULL) {
-  	printf("Erro de aberturra de arquivo");
+	indfp = fopen( ARQUIVOIND, "r");
+
+	if( !fp || !indfp ) {
+		printf("Erro de aberturra de arquivo");
   	exit(1);
   	}
+	
 
-  fgets( linha, MAXLIN, fp); // cabeçalho do arquivo
-
-  while( 1 ) {
-	  if(feof(fp)) break;
-    regs++;
-
-    if(regs%1000==0) {
-    	printf("\b\b\b\b\b\b\b\b%d", regs);
-    	fflush(stdout);
-    	}
-    onde = ftell( fp );
-    fgets( linha, MAXLIN, fp);
-
-	// Montando a struct reglido com dados da linha
-	extrai( linha, NOME, reglido.nome);
-	reglido.local = onde;
-
-	insere(&raiz, reglido);
-
+  while( ! feof(indfp) ) {
+		  fread( &regind, sizeof(regind), 1, indfp);
+			insere(&raiz, regind);
 	}
-  fclose(fp);
+  fclose(indfp);
 
-  printf("Carregado");
-  fgets( linha, MAXLIN, stdin);
+  printf("Índice carregado");
 
-
-  printf("\nTravessia da rede em ordem (ERD)\n");
-  travessia(raiz);
+  // printf("\nTravessia da rede em ordem (ERD)\n");
+  // travessia(raiz);
+	printf("\nAltura da árvore: %d", altura(raiz));
   printf("\n\n");
+	
+	return raiz;
 
 }
+
+void achanomesbst(char *texto, arvore raiz, NO **resposta) {
+	arvore encontrado;	
+	FILE *fp;
+	char linha[MAXLIN];
+	REGISTRO r;
+	
+	encontrado = busca( raiz, texto );
+
+	if(encontrado){
+		fp = 	fopen( ARQUIVOCSV, "r" );
+		if(!fp){
+				printf("Erro de abertura de arquivo.\n");
+				exit(-1);
+			}
+		fseek( fp, encontrado->dados.local,0);
+		fgets(linha, MAXLIN, fp);
+
+		extrai( linha, NOME, r.nome);
+		extrai( linha, ORGSUP_LOTACAO, r.lotacao);
+		extrai( linha, DESCRICAO_CARGO, r.cargo);
+		extrai( linha, COD_UORG_LOTACAO, r.ulotacao);
+		extrai( linha, COD_ORG_LOTACAO , r.olotacao);
+		push( r, resposta );
+	}
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+

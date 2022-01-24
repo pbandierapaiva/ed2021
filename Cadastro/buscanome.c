@@ -22,6 +22,8 @@
 int main() {
 	char texto[MAXCPO];
 	NO *resposta;
+	
+	arvore indicebst, encontrado;
 	clock_t cronometro;
 	
 	resposta=NULL;
@@ -42,6 +44,17 @@ int main() {
 	
 	imprimePilha(resposta);	
 	
+	cronometro = clock();
+
+	printf("\nBusca BST\n\n");
+	indicebst = carregaindice();
+	achanomesbst( texto, indicebst, &resposta );
+	
+	printf("Tempo de processamento: %u ms\n", (long)(clock()-cronometro)/1000);
+
+	imprimePilha(resposta);	
+
+
 	
 	return 0;
 }

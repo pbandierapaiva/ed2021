@@ -5,9 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// int fb(arvore a){
-//   return altura( a->dir ) - altura( a->esq);
-// }
+
 void insere(arvore *a, int valor ) {
   arvore novono;
   int fb;

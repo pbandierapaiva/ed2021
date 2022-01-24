@@ -9,7 +9,7 @@ COPT = -g
 # COPT =
 
 
-all: criaind maxcampos buscaind buscalotacao buscanome buscabst
+all: criaind maxcampos buscaind buscalotacao buscanome 
 
 clean:
 	rm *.o
@@ -17,11 +17,11 @@ clean:
 buscaind: buscaind.o util.o
 	$(C) buscaind.o util.o -o buscaind
 
-buscabst: buscabst.o util.o
-	$(C) buscabst.o util.o -o buscabst
+#buscabst: buscabst.o util.o
+#	$(C) buscabst.o util.o -o buscabst
 
-buscanome: buscanome.o util.o
-	$(C) buscanome.o util.o -o buscanome
+buscanome: buscanome.o util.o buscabst.o
+	$(C) buscanome.o util.o buscabst.o -o buscanome
 
 buscalotacao: buscalotacao.o util.o
 	$(C) buscalotacao.o util.o -o buscalotacao

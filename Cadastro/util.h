@@ -10,3 +10,6 @@ void imprimeResposta(char *);
 int achanomes( char *, int ,  NO ** );
 void push( REGISTRO , NO ** );
 void imprimePilha(NO *);
+
+arvore carregaindice();
+void achanomesbst(char *, arvore , NO **);

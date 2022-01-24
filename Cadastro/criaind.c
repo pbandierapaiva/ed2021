@@ -22,6 +22,7 @@ int main() {
 	REGIND reglido;
 	char linha[MAXLIN];
 	long int onde;
+	char resposta[MAXCPO], resp2[MAXCPO];
 	
 	fp = fopen( ARQUIVOCSV, "r");
 	indfp = fopen( ARQUIVOIND, "w");
@@ -37,13 +38,20 @@ int main() {
 	fgets( linha, MAXLIN, fp);
 	while( !feof(fp) ) {
 		
-		// Montando a struct reglido com dados da linha
-		extrai( linha, NOME, reglido.nome);  
-		//extrai( linha, UORG_LOTACAO, reglido.lotacao);
-		reglido.local = onde;
-		
-		fwrite( &reglido, sizeof(REGIND), 1, indfp);
-		
+		// Extrai org_LOTACAO
+		extrai( linha, COD_ORG_LOTACAO, resposta);
+
+// Filtra apenas registros com ORG_LOTACAO da Unifesp 26262
+		if( ! strcmp( resposta,"26262" ) ) {
+			
+			// Montando a struct reglido com dados da linha
+			extrai( linha, NOME, reglido.nome);  
+
+			reglido.local = onde;
+			
+			fwrite( &reglido, sizeof(REGIND), 1, indfp);
+			
+			}
 		onde = ftell( fp );
 		fgets( linha, MAXLIN, fp);
 		}
