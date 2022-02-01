@@ -59,13 +59,8 @@ void insereAresta(TGrafo *g, int idOrigem, int idDestino) {
       else {
         ant->prox=novo;
       }
-
     }
-
   }
-
-
-
 }
 
 int main() {
